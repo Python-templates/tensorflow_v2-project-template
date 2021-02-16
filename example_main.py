@@ -11,7 +11,7 @@ def main():
 
     train_data, test_data = DatasetGenerator(config)()
     model = ExampleModel()
-    trainer = ExampleTrainer(model, train_data, config)
+    trainer = ExampleTrainer(model, train_data, test_data, config)
     trainer.train()
 
 

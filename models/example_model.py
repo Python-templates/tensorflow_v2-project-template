@@ -3,7 +3,7 @@ import tensorflow as tf
 
 class ExampleModel(tf.keras.Model):
     def __init__(self):
-        super(ExampleModel, self).__init__()
+        super().__init__()
         self.conv1 = tf.keras.layers.Conv2D(32, 3, activation='relu')
         self.flatten = tf.keras.layers.Flatten()
         self.d1 = tf.keras.layers.Dense(128, activation='relu')
