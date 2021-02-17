@@ -2,6 +2,7 @@ import tensorflow as tf
 from tqdm import tqdm
 import numpy as np
 import os
+from utils.utils import get_project_root
 
 class PlantsTrainer:
     def __init__(self, model, train_data, val_data, config):
@@ -19,7 +20,9 @@ class PlantsTrainer:
 
 
     def train(self):
-        check_path = os.path.join("./experiments", self.config["exp_name"],
+# %%
+        root_path = get_project_root()
+        check_path = os.path.join(root_path, "experiments", self.config["exp_name"],
                                     "checkpoint", self.config["checkpoint_name"])
         checkpoint = tf.keras.callbacks.ModelCheckpoint(check_path,
                                                         verbose=1, save_best_only=True)
