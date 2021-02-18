@@ -1,0 +1,12 @@
+{
+    "exp_name": "plantsM",
+    "checkpoint_name": "plant_modelM.h5",
+    "image_size": [160, 160],
+    "seed": 123,
+    "validation_split": 0.2,
+    "learning_rate": 0.001,
+    "batch_size": 20,
+    "num_epochs": 5
+}
+
+

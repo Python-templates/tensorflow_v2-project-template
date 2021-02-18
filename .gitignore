@@ -133,4 +133,8 @@ dmypy.json
 *.tif
 *.jpg
 
+# vscode
 .vscode
+
+# tensorflow
+*.h5

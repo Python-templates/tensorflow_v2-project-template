@@ -4,6 +4,7 @@ import tensorflow as tf
 class PlantsModel():
     def __init__(self, config):
 
+        self.model = None
         self.config = config
         IMG_SHAPE = tuple(config["image_size"])+(3,)
         self.base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
@@ -15,9 +16,10 @@ class PlantsModel():
             tf.keras.layers.experimental.preprocessing.RandomRotation(0.1),])
 
         self.global_average_layer = tf.keras.layers.GlobalAveragePooling2D()
-        self.prediction_layer = tf.keras.layers.Dense(1)
-        self.model = None
+        self.prediction_layer = tf.keras.layers.Dense(5, activation='softmax')
 
+        # self.prediction_layer = tf.keras.layers.Dense(num_classes, activation='softmax',
+        #                     kernel_regularizer=tf.keras.regularizers.l2(0.0001))(x)
 
     def create_model(self):
 
@@ -28,8 +30,6 @@ class PlantsModel():
         x = self.base_model(x, training=False)
         x = self.global_average_layer(x)
         x = tf.keras.layers.Dropout(rate=0.2)(x)
-        # x = tf.keras.layers.Dense(num_classes, activation='softmax',
-        #                     kernel_regularizer=tf.keras.regularizers.l2(0.0001))(x)
         # outputs = x
         # outputs = prediction_layer(x)
         outputs = self.prediction_layer(x)
@@ -45,7 +45,8 @@ class PlantsModel():
 
 
     def check_features_dimensions(self, train_data):
-        image_batch, label_batch = next(iter(train_data))
+        image_batch = train_data.take(1)
+        image_batch = next(iter(train_data))
 
         feature_batch = self.base_model(image_batch)
         feature_batch_average = self.global_average_layer(feature_batch)
