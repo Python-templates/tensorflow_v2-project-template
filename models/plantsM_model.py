@@ -34,7 +34,6 @@ class PlantsModel():
         # outputs = prediction_layer(x)
         outputs = self.prediction_layer(x)
         self.model = tf.keras.Model(inputs, outputs)
-        self.model.summary()
 
         return self.model
 
@@ -66,4 +65,5 @@ class PlantsModel():
         self.model.save(check_path)
 
     def load_model(self, path):
-        self.model = tf.keras.models.load_model(path)
+        return tf.keras.models.load_model(path)
+

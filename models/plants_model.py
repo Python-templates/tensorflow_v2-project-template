@@ -66,3 +66,7 @@ class PlantsModel():
 
     def load_model(self, path):
         self.model = tf.keras.models.load_model(path)
+
+
+
+

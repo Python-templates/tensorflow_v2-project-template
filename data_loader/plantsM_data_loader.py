@@ -8,6 +8,7 @@ class DataLoader:
                                     data_dir,
                                     validation_split=config["validation_split"],
                                     subset="training",
+                                    shuffle=True,
                                     label_mode='categorical',
                                     seed=config["seed"],
                                     image_size=config["image_size"],

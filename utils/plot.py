@@ -1,5 +1,7 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
 
 def display_training_accuracy(history):
     acc = history.history['accuracy']
@@ -26,3 +28,38 @@ def display_training_accuracy(history):
     plt.title('Training and Validation Loss')
     plt.xlabel('epoch')
     plt.show()
+
+
+def plot_confusion_matrix(y_true, y_pred, class_labels):
+    from sklearn.metrics import classification_report, confusion_matrix
+    cm = confusion_matrix(y_true, y_pred)
+    plt.figure(figsize=(15,15))
+    ax = sns.heatmap(cm, cmap=plt.cm.plasma, annot=True, square=True,
+                        xticklabels=class_labels, yticklabels=class_labels)
+    ax.set_ylabel('Actual', fontsize=40)
+    ax.set_xlabel('Predicted', fontsize=40)
+
+    cf_report = classification_report(y_pred,y_true)
+    print(cf_report)
+
+def plot_confusion_matrix_from_dataset(dataset, model, class_labels):
+    y_true = []
+    y_pred = []
+    iterator = dataset.as_numpy_iterator()
+    # iterator.next()
+    for image_batch, label_batch in iterator:
+        predictions = model.predict_on_batch(image_batch)
+
+        probabilities = tf.nn.softmax(predictions)
+        predicted_indices = tf.argmax(probabilities, 1)
+        target_labels = list(range(len(predictions[0])))
+        predicted_class = tf.gather(target_labels, predicted_indices).numpy()
+        label_class = np.where(label_batch == 1)[1]
+
+        y_true.append(label_class)
+        y_pred.append(predicted_class)
+
+    y_true = np.hstack(np.array(y_true))
+    y_pred = np.hstack(np.array(y_pred))
+
+    plot_confusion_matrix(y_true, y_pred, class_labels)
