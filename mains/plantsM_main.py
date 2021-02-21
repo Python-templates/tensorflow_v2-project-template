@@ -56,11 +56,15 @@ model_obj_load = PlantsModel(config)
 path_load = "C:\\Users\\janezla\\Documents\\_programs\\tensorflow_v2-project-template\\experiments\\plantsM\\checkpoint\\plant_modelM.h5"
 model = model_obj_load.load_model(path_load)
 
-loss, accuracy = model.evaluate(test_data)
-print('Test accuracy :', accuracy)
-
 # %%
-plot_confusion_matrix_from_dataset(test_data, model, ["1", "2", "3", "4", "5"])
+dataset = val_data
+# loss, accuracy = model.evaluate(dataset)
+dict_metrics = model.evaluate(dataset, return_dict=True)
+# print('Test accuracy :', accuracy)
+print(dict_metrics)
+
+names = ["Target spot", "Mosaic virus", "Curl virus", "Bacterial spot", "Early blight"]
+plot_confusion_matrix_from_dataset(dataset, model, names)
 
 
 # %%

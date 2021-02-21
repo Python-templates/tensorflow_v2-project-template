@@ -34,12 +34,14 @@ def plot_confusion_matrix(y_true, y_pred, class_labels):
     from sklearn.metrics import classification_report, confusion_matrix
     cm = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(15,15))
+    sns.set(font_scale=1.4)
     ax = sns.heatmap(cm, cmap=plt.cm.plasma, annot=True, square=True,
                         xticklabels=class_labels, yticklabels=class_labels)
-    ax.set_ylabel('Actual', fontsize=40)
-    ax.set_xlabel('Predicted', fontsize=40)
-
-    cf_report = classification_report(y_pred,y_true)
+    ax.set_ylabel('Actual', fontsize=20)
+    ax.set_xlabel('Predicted', fontsize=20)
+    ax.set_yticklabels(class_labels, va='center', rotation = 90, position=(0,0.28))
+    plt.show()
+    cf_report = classification_report(y_true, y_pred)
     print(cf_report)
 
 def plot_confusion_matrix_from_dataset(dataset, model, class_labels):
@@ -61,5 +63,9 @@ def plot_confusion_matrix_from_dataset(dataset, model, class_labels):
 
     y_true = np.hstack(np.array(y_true))
     y_pred = np.hstack(np.array(y_pred))
+
+    # m = tf.keras.metrics.Accuracy()
+    # m.update_state(y_true, y_pred)
+    # print(m.result().numpy())
 
     plot_confusion_matrix(y_true, y_pred, class_labels)
